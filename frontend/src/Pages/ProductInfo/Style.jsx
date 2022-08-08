@@ -3,19 +3,18 @@ import { Box, styled } from "@mui/material";
 export const Body=styled(Box)({
     height:"80vh",
     width:"98vw",
-    display:"flex",padding:"10px 10%",
+    display:"flex",
     boxSizing:"border-box"
 })
 export const ImageContainer=styled(Box)({
-    height:"100%",
+
     width:"30%",
     display:"flex",
     justifyContent:"center",
-    alignItems:"center",
+flexDirection:"column",
     background:"white"
 })
 export const DetailsContainer=styled(Box)({
-    height:"100%",
     width:"70%",
     padding:"20px",
     background:"#dfdede",
@@ -56,3 +55,15 @@ export const Colors=styled(Box)(({color})=>({
     borderRadius:"50%",
     background:color
 }))
+export const ServicesList=styled('p')({
+    margin:'10px 0',
+    fontSize:"14px",
+    fontWeight:"bold"
+})
+
+export const BuyBtnContainer=styled(Box)({
+    marginTop: "50px",
+    display: "flex",
+    justifyContent: "space-evenly",
+    width: "100%",
+})

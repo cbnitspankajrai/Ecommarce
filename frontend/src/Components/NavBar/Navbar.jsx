@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Popup from "../Popup";
 import Switch from "../../Pages/Authantication/Switch"; //Signup and Signin Switch component
+import { useSelector } from "react-redux";
 
 //material ui imports
 import * as React from "react";
@@ -91,6 +92,13 @@ const RightNav = ({ setAuth }) => {
   const [userpopup, setUserpopup] = useState(false);
   const navigate = useNavigate();
 
+
+  const cartData=useSelector((globalstate)=>{
+    return globalstate.CartReducer;
+  });
+
+    
+
   const UserMenuClick = (event) => {
     switch (event.target.innerText) {
       case "Profile":
@@ -124,7 +132,7 @@ const RightNav = ({ setAuth }) => {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error" onClick={()=>{navigate('/Cart')}}>
+          <Badge badgeContent={cartData.length} color="error" onClick={()=>{navigate('/Cart')}}>
             <LocalMallIcon />
           </Badge>
         </IconButton>

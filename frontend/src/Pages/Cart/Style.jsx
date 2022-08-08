@@ -55,8 +55,9 @@ export const HeaderButtons = styled(Button)(({ right }) => ({
 
 //order listing css
 export const OrderList = styled(Box)({
-  height: "200px",
+  minHeight: "200px",
   padding: "20px",
+  margin:"0 15px"
 });
 
 export const ListItems = styled(Box)({
@@ -170,3 +171,21 @@ export const CostLine = styled(Box)({
     color: "gray",
   },
 });
+
+
+//Empty cart styling
+export const EmptyCartContainer=styled(Box)({
+  display:"flex",
+  justifyContent:"center",
+  alignItems:"center",
+  flexDirection:"column",
+  img:{
+    width:"150px"
+  },
+  p:{
+    fontWeight: 'bold',
+    fontSize: '16px',
+    color: 'gray',
+  },
+ 
+})

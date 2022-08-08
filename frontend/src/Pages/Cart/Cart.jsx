@@ -1,34 +1,17 @@
-import { Box } from "@mui/system";
+import React from "react";
+import { useSelector,useDispatch } from "react-redux";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { Button, Divider, IconButton } from "@mui/material";
-import React from "react";
-import {
-  CartContainer,
-  ChildContainer,
-  CompanyOfProduct,
-  CostLine,
-  Delivered,
-  FullPage,
-  HeaderButtons,
-  HeaderOfCart,
-  HeadHeading,
-  Heading,
-  HeadParagraph,
-  HeadSection,
-  ListItems,
-  OrderList,
-  PricingContainer,
-  ProductDeatils,
-  PromoCode,
-  Qantity,
-  TitleOfProduct,
-} from "./Style";
+import {Box,Button, Divider, IconButton } from "@mui/material";
+import {CartContainer,ChildContainer,CompanyOfProduct,CostLine,Delivered,EmptyCartContainer,FullPage,HeaderButtons,HeaderOfCart,HeadHeading,Heading,HeadParagraph,HeadSection,ListItems,OrderList,PricingContainer,ProductDeatils,PromoCode,Qantity,TitleOfProduct} from "./Style";
+import { removeAllFromCart, removeToCart } from "../../Redux/Actions/CartActions";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
+  
   return (
     <FullPage>
       <Box style={{ display: "flex" }}>
@@ -63,6 +46,12 @@ const CartHeader = () => {
 
 //items container
 const ItemsComponent = () => {
+ 
+  const dispatch=useDispatch();
+  const cartData=useSelector((globalstate)=>{
+    return globalstate.CartReducer;
+  });
+
   return (
     <>
       <Box
@@ -88,6 +77,7 @@ const ItemsComponent = () => {
               right={270}
               startIcon={<DeleteOutlineIcon />}
               sx={{color:"red",borderColor:"red"}}
+              onClick={()=>dispatch(removeAllFromCart())}
             >
               Remove All
             </HeaderButtons>
@@ -96,45 +86,11 @@ const ItemsComponent = () => {
 
           {/* Orders List    */}
           <OrderList>
-            <ListItems sx={{position:"relative"}}>
-            
-             {/* Remove button */}
-             <IconButton sx={{position:"absolute",right:10,top:0}}><CloseIcon sx={{color:"red"}}/> </IconButton>
-
-              <img
-                src="https://rukminim1.flixcart.com/image/332/398/k5wse4w0/kids-ethnic-set/a/q/f/2-3-years-boys-festive-casual-full-sleev-pure-cotton-raja-jacket-original-imafzhfmwjk5tuek.jpeg?q=50"
-                alt="Product"
-              />
-
-              {/* First Product */}
-              <ProductDeatils >
-                <TitleOfProduct>
-                  BabyBoy Cream Color <br /> Kurta long name
-                </TitleOfProduct>
-                <CompanyOfProduct>Company Name</CompanyOfProduct>
-                <p>
-                   
-                  Size : XL &nbsp; | &nbsp;
-                  <span style={{ fontWeight: "bold" }}>Rs. 1250</span>
-                </p>
-              </ProductDeatils>
-
-              <Qantity >
-                <IconButton><AddCircleOutlineIcon/> </IconButton>
-                <input type='text' value={1} style={{fontWeight:"bold",fontSize:16}}/>
-                <IconButton> <RemoveCircleOutlineIcon/> </IconButton>
-
-
-              </Qantity>
-              <Delivered>
-              <Button  variant="outlined" startIcon={<FavoriteBorderIcon />}>Move To Wish List </Button>
-              </Delivered>
-            </ListItems>
-
-           
-
-
+           {cartData.length?
+           cartData.map((data)=><ListItem cartData={data}/>)
+           :<IsEmpty/>}
           </OrderList>
+
           <Divider variant="middle" />
         </CartContainer>
       </Box>
@@ -142,7 +98,62 @@ const ItemsComponent = () => {
   );
 };
 
+
+const ListItem=({cartData})=>{
+const dispatch=useDispatch();
+
+  return(
+    <>
+     <ListItems sx={{position:"relative"}}>
+            
+            {/* Remove button */}
+            <IconButton onClick={()=>dispatch(removeToCart())}  sx={{position:"absolute",right:10,top:0}}><CloseIcon sx={{color:"red"}}/> </IconButton>
+
+             <img
+               src={cartData.img}
+               alt="Product"
+             />
+
+             {/* First Product */}
+             <ProductDeatils >
+               <TitleOfProduct>
+                 {cartData.title}
+               </TitleOfProduct>
+               <CompanyOfProduct>{cartData.company}</CompanyOfProduct>
+               <p>
+                  
+                 Size : XL &nbsp; | &nbsp;
+                 <span style={{ fontWeight: "bold" }}>Rs. {cartData.price}</span>
+               </p>
+             </ProductDeatils>
+
+             <Qantity >
+               <IconButton ><AddCircleOutlineIcon/> </IconButton>
+               <input type='text' value={1} style={{fontWeight:"bold",fontSize:16}}/>
+               <IconButton> <RemoveCircleOutlineIcon/> </IconButton>
+
+
+             </Qantity>
+             <Delivered>
+             <Button  variant="outlined" startIcon={<FavoriteBorderIcon />}>Move To Wish List </Button>
+             </Delivered>
+           </ListItems>
+           <Divider variant="fullWidth" />
+    
+    </>
+  )
+}
+
+
 const PricingSection = () => {
+  const cartData=useSelector((globalstate)=>{
+    return globalstate.CartReducer;
+  });
+
+  const price=cartData.map((data)=>data.price).reduce((acc,curr)=>acc+curr,0)
+  
+
+
   return (
     <>
       <PricingContainer>
@@ -181,7 +192,7 @@ const PricingSection = () => {
           </CostLine>
           <CostLine>
              
-            <p>Discount</p> <p style={{ color: "green" }}>- 20.00</p> 
+            <p>Discount</p> <p style={{ color: "green" }}>- 00.00</p> 
           </CostLine>
           <CostLine>
              
@@ -189,12 +200,12 @@ const PricingSection = () => {
           </CostLine>
           <CostLine>
              
-            <p>Price</p> <p className="price">0.00</p>
+            <p>Price</p> <p className="price">{price}</p>
           </CostLine>
           <Divider variant="fullWidth" />
           <CostLine>
              
-            <p>Sub Total</p> <p className="price">0.00</p>
+            <p>Sub Total</p> <p className="price">{price}</p>
           </CostLine>
         </ChildContainer>
         <Box
@@ -209,5 +220,19 @@ const PricingSection = () => {
     </>
   );
 };
+
+
+const IsEmpty=()=>{
+  const navigate=useNavigate();
+
+  return(<>
+    <EmptyCartContainer sx={{display:"flex",justifyContent:"center",alignItems:"center",flexDirection:"column"}}>
+    <img src="/images/emptyCart.svg" alt="Empty Cart Image" />
+    <p>No item found..</p>
+    <Button onClick={()=>navigate('/')} variant="contained" size="small">Shop Now</Button>
+    </EmptyCartContainer>
+
+</>)
+}
 
 export default Cart;
