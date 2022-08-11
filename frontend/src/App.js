@@ -9,7 +9,8 @@ import TrackOrder from "./Pages/TrackOrders/TrackOrder";
 import HomePage from "./Pages/HomePage/HomePage";
 import Product from "./Pages/ProductInfo/Product";
 import Wishlist from "./Pages/Wishlist/Wishlist";
-
+import {ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -24,9 +25,9 @@ function App() {
         <Route path="/trackorder" element={<TrackOrder/>}/>
         <Route path="/product/:id" element={<Product/>}/>
         <Route path="/wishlist" element={<Wishlist/>}/>
-
       </Routes>
-
+    
+      <ToastContainer position="bottom-left" autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
     <Footer/>
     </>
   );

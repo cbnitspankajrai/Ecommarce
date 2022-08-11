@@ -74,7 +74,7 @@ const Navbar = () => {
         </Toolbar>
 
         {/* popup import  */}
-        <Popup open={OpenPopup} setopen={SetOpenPopup} marginTop="-50">
+        <Popup open={OpenPopup} setopen={SetOpenPopup} marginTop="-40px">
           <Switch />
         </Popup>
 

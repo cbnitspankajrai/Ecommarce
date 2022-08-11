@@ -4,8 +4,10 @@ import Banner from "./Banner";
 import Box from "@mui/material/Box";
 import {dealData} from './data'
 import Category from "../../Components/Category/Category";
+import { Products } from "../../data/Products";
 
 function HomePage() {
+  console.log(Products)
   return (
     <>
     <Category/>

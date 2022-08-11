@@ -13,6 +13,7 @@ export const removeToCart=()=>{
         type:REMOVE_TO_CART
     }
 }
+
 export const removeAllFromCart=()=>{
     console.log("remove all from cart")
     return{
